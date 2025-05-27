@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Github, Linkedin, Mail, ExternalLink, ChevronLeft, ChevronRight, Code, Database, Globe, Smartphone, Server, Palette, ChevronUp, Menu, X } from 'lucide-react';
 import my_pic from '../assets/my_pic.jpg'; 
+import react from '../assets/react.svg';
+import node from '../assets/node.png';
+import c from '../assets/c.png';
+import firebase from '../assets/firebase.png';
+import mongodb from '../assets/mongodb.png';
+import mysql from '../assets/mysql.png';
+import springboot from '../assets/springboot.png';
+import dotnet from '../assets/dotnet.webp';
+import js from '../assets/js.png';
+import java from '../assets/java.png';
+import html from '../assets/html.png';
+import css from '../assets/css.png';
+import rabbitmq from '../assets/rabbitmq.svg';
+import tailwind from '../assets/tailwind.png';
+import reactnative from '../assets/reactnative.png';
+import jest from '../assets/jest.png';
+import github from '../assets/github.png';
+import express from '../assets/express.png';
+import azure from '../assets/azure.png';
+import androidstudio from '../assets/androidstudio.png';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -18,17 +38,27 @@ const Portfolio = () => {
     { id: 5, title: 'Analytics Platform', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' }
   ];
 
-  const techStack = [
-    { name: 'React', icon: <Code className="w-8 h-8" />, color: 'from-blue-400 to-blue-600' },
-    { name: 'Node.js', icon: <Server className="w-8 h-8" />, color: 'from-green-400 to-green-600' },
-    { name: 'MongoDB', icon: <Database className="w-8 h-8" />, color: 'from-green-500 to-green-700' },
-    { name: 'TypeScript', icon: <Code className="w-8 h-8" />, color: 'from-blue-500 to-blue-700' },
-    { name: 'Next.js', icon: <Globe className="w-8 h-8" />, color: 'from-gray-700 to-gray-900' },
-    { name: 'React Native', icon: <Smartphone className="w-8 h-8" />, color: 'from-purple-400 to-purple-600' },
-    { name: 'GraphQL', icon: <Database className="w-8 h-8" />, color: 'from-pink-400 to-pink-600' },
-    { name: 'Tailwind', icon: <Palette className="w-8 h-8" />, color: 'from-cyan-400 to-cyan-600' }
-  ];
-
+    const techStack = [
+  { name: 'React', icon: <img src={react} alt="React" /> },
+  { name: 'Node.js', icon: <img src={node} alt="Node.js"  /> },
+  { name: 'MongoDB', icon: <img src={mongodb} alt="MongoDB"  /> },
+  { name: 'MySQL', icon: <img src={mysql} alt="MySQL" /> },
+  { name: 'Spring Boot', icon: <img src={springboot} alt="Spring Boot" /> },
+  { name: '.NET', icon: <img src={dotnet} alt=".NET" /> },
+  { name: 'JavaScript', icon: <img src={js} alt="JavaScript" /> },
+  { name: 'Java', icon: <img src={java} alt="Java" /> },
+  { name: 'HTML', icon: <img src={html} alt="HTML" /> },
+  { name: 'CSS', icon: <img src={css} alt="CSS" /> },
+  { name: 'Firebase', icon: <img src={firebase} alt="Firebase" /> },
+  { name: 'RabbitMQ', icon: <img src={rabbitmq} alt="RabbitMQ" /> },
+  { name: 'Tailwind CSS', icon: <img src={tailwind} alt="Tailwind CSS" /> },
+  { name: 'React Native', icon: <img src={reactnative} alt="React Native" /> },
+  { name: 'Jest', icon: <img src={jest} alt="Jest" /> },
+  { name: 'GitHub', icon: <img src={github} alt="GitHub" /> },
+  { name: 'Express.js', icon: <img src={express} alt="Express.js" /> },
+  { name: 'Azure', icon: <img src={azure} alt="Azure" /> },
+  { name: 'Android Studio', icon: <img src={androidstudio} alt="Android Studio" /> }
+];
   // Intersection Observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -101,7 +131,7 @@ const Portfolio = () => {
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-6">
               {['home', 'about', 'tech-stack', 'projects', 'experience', 'blogs', 'contact'].map((section) => (
                 <button
                   key={section}
@@ -146,16 +176,14 @@ const Portfolio = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <section id="home" className=" flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20"></div>
         <div className="max-w-7xl mx-auto px-6 py-20 text-center relative z-10">
           <div className="animate-pulse">
            
            
          
-
-          {/* Photo Option 2: Floating Hexagon (Currently Active) */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <div className="w-48 h-48 mx-auto relative group">
               <div className="w-full h-full bg-gradient-to-br from-purple-600/30 to-pink-600/30 transform rotate-12 rounded-3xl absolute animate-pulse"></div>
               <div className="w-full h-full bg-gradient-to-br from-pink-600/30 to-purple-600/30 transform -rotate-12 rounded-3xl absolute animate-pulse delay-1000"></div>
@@ -165,21 +193,22 @@ const Portfolio = () => {
                 className="w-40 h-40 rounded-2xl object-cover absolute top-4 left-4 border-2 border-white/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-10"
               />
             </div>
-          </div>
+          </div> */}
 
         
           
         
          
           </div>
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in">
+          <h1 className={"mt-14 text-6xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in"} >
+          
             Lasandi Randini
           </h1>
-          <p className="text-2xl md:text-3xl mb-8 text-gray-300 animate-slide-up">
-            Full Stack Software Engineer
+          <p className="text-2xl md:text-2xl mb-8 text-gray-300 animate-slide-up">
+            Full Stack Developer
           </p>
           <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto animate-slide-up delay-200">
-            Crafting digital experiences with modern technologies and innovative solutions
+            Crafting digital experiences with modern technologies and innovative solutions. Passionate about building scalable applications that make a difference.
           </p>
           <div className="flex justify-center space-x-6 mb-12 animate-slide-up delay-300">
             <a href="https://github.com/LasandiRandini" className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform">
@@ -214,38 +243,53 @@ const Portfolio = () => {
           }`}>
             <div>
               <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                I'm a passionate Full Stack Software Engineer with 5+ years of experience building scalable web applications
-                and mobile solutions. I love turning complex problems into simple, beautiful, and intuitive solutions.
+              I’m a passionate software developer with 1+ year of experience.
+               I’ve worked on full-stack projects using like React for the frontend and Node.js, Spring Boot, and .NET for the backend. I enjoy building clean, responsive UIs and delivering user-focused solutions.
               </p>
               <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                When I'm not coding, you can find me exploring new technologies, contributing to open source projects,
-                or sharing my knowledge through technical blogs and community talks.
+               I’m also interested in AI and always stay updated with the latest tech trends. I love crafting modern, interactive interfaces and continuously improving my skills to build better, smarter applications.
               </p>
               <div className="flex space-x-4">
-                <span className="px-4 py-2 bg-purple-600/30 rounded-full text-sm">Problem Solver</span>
+                <span className="px-2 py-2 bg-purple-600/30 rounded-full text-sm">Problem Solver</span>
                 <span className="px-4 py-2 bg-pink-600/30 rounded-full text-sm">Team Player</span>
                 <span className="px-4 py-2 bg-blue-600/30 rounded-full text-sm">Innovation Focused</span>
               </div>
             </div>
+                   
+            
             <div className="relative">
-              <div className="w-full h-64 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl flex items-center justify-center">
-                <Code className="w-24 h-24 text-purple-300 animate-pulse" />
+              <div className="w-80 h-80 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl overflow-hidden group hover:scale-105 transition-transform duration-500">
+                <img
+                  src={my_pic}
+                  alt="Profile"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-xl font-bold text-white mb-1">Lasandi Randini</h3>
+                  {/* <p className="text-purple-300">Full Stack Developer</p> */}
+                </div>
               </div>
             </div>
+           
+
+           
+           
+          
           </div>
         </div>
       </section>
 
       {/* Tech Stack Section */}
       <section id="tech-stack" className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-2xl mx-auto px-6 item-center">
           <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
             isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}>
             Tech Stack
           </h2>
-          <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 delay-300 ${
-            isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          <div className={`grid grid-cols-2 md:grid-cols-4 text-center gap-7 transition-all duration-1000 delay-300 ${
+            isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y'
           }`}>
             {techStack.map((tech, index) => (
               <div
@@ -253,7 +297,7 @@ const Portfolio = () => {
                 className={`group p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 hover:bg-white/10 animate-fade-in`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`w-16 h-16 bg-gradient-to-br ${tech.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-10 h-10 bg-gradient-to-br ${tech.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   {tech.icon}
                 </div>
                 <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">
