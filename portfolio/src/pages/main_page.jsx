@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Github, Linkedin, Mail, ExternalLink, ChevronLeft, ChevronRight, Code, Database, Globe, Smartphone, Server, Palette, ChevronUp, Menu, X } from 'lucide-react';
+import my_pic from '../assets/my_pic.jpg'; 
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -159,7 +160,7 @@ const Portfolio = () => {
               <div className="w-full h-full bg-gradient-to-br from-purple-600/30 to-pink-600/30 transform rotate-12 rounded-3xl absolute animate-pulse"></div>
               <div className="w-full h-full bg-gradient-to-br from-pink-600/30 to-purple-600/30 transform -rotate-12 rounded-3xl absolute animate-pulse delay-1000"></div>
               <img
-                
+                src={my_pic}
                 alt="Profile"
                 className="w-40 h-40 rounded-2xl object-cover absolute top-4 left-4 border-2 border-white/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-10"
               />
