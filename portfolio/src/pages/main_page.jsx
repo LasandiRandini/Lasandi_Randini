@@ -21,6 +21,9 @@ import github from '../assets/github.png';
 import express from '../assets/express.png';
 import azure from '../assets/azure.png';
 import androidstudio from '../assets/androidstudio.png';
+import blog_1 from '../assets/blog_1.jpg';
+import blog_2 from '../assets/blog_2.jpg';
+//import blog_3 from '../assets/blog_3.jpg';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -28,8 +31,14 @@ const Portfolio = () => {
   const [isVisible, setIsVisible] = useState({});
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-
-  // Project images for slideshow
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+const [isSubmitted, setIsSubmitted] = useState(false);
+  // Projects
   const projects = [
     { id: 1, title: 'E-Commerce Platform', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop' },
     { id: 2, title: 'Task Management App', image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop' },
@@ -38,27 +47,28 @@ const Portfolio = () => {
     { id: 5, title: 'Analytics Platform', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' }
   ];
 
-    const techStack = [
-  { name: 'React', icon: <img src={react} alt="React" /> },
-  { name: 'Node.js', icon: <img src={node} alt="Node.js"  /> },
-  { name: 'MongoDB', icon: <img src={mongodb} alt="MongoDB"  /> },
-  { name: 'MySQL', icon: <img src={mysql} alt="MySQL" /> },
-  { name: 'Spring Boot', icon: <img src={springboot} alt="Spring Boot" /> },
-  { name: '.NET', icon: <img src={dotnet} alt=".NET" /> },
-  { name: 'JavaScript', icon: <img src={js} alt="JavaScript" /> },
-  { name: 'Java', icon: <img src={java} alt="Java" /> },
-  { name: 'HTML', icon: <img src={html} alt="HTML" /> },
-  { name: 'CSS', icon: <img src={css} alt="CSS" /> },
-  { name: 'Firebase', icon: <img src={firebase} alt="Firebase" /> },
-  { name: 'RabbitMQ', icon: <img src={rabbitmq} alt="RabbitMQ" /> },
-  { name: 'Tailwind CSS', icon: <img src={tailwind} alt="Tailwind CSS" /> },
-  { name: 'React Native', icon: <img src={reactnative} alt="React Native" /> },
-  { name: 'Jest', icon: <img src={jest} alt="Jest" /> },
-  { name: 'GitHub', icon: <img src={github} alt="GitHub" /> },
-  { name: 'Express.js', icon: <img src={express} alt="Express.js" /> },
-  { name: 'Azure', icon: <img src={azure} alt="Azure" /> },
-  { name: 'Android Studio', icon: <img src={androidstudio} alt="Android Studio" /> }
+ const techStack = [
+  { name: 'React', icon: <img src={react} alt="React" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Node.js', icon: <img src={node} alt="Node.js" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'MongoDB', icon: <img src={mongodb} alt="MongoDB" className="w-20 h-20 object-contain mx-auto" /> },
+  { name: 'MySQL', icon: <img src={mysql} alt="MySQL" className="w-20 h-20 object-contain mx-auto" /> },
+  { name: 'Spring Boot', icon: <img src={springboot} alt="Spring Boot" className="w-20 h-20 object-contain mx-auto" /> },
+  { name: '.NET', icon: <img src={dotnet} alt=".NET" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'JavaScript', icon: <img src={js} alt="JavaScript" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Java', icon: <img src={java} alt="Java" className="w-50 h-50 object-contain mx-auto" /> },
+  { name: 'HTML', icon: <img src={html} alt="HTML" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'CSS', icon: <img src={css} alt="CSS" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Firebase', icon: <img src={firebase} alt="Firebase" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'RabbitMQ', icon: <img src={rabbitmq} alt="RabbitMQ" className="w-30 h-30 object-contain mx-auto" /> },
+  { name: 'Tailwind CSS', icon: <img src={tailwind} alt="Tailwind CSS" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'React Native', icon: <img src={reactnative} alt="React Native" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Jest', icon: <img src={jest} alt="Jest" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'GitHub', icon: <img src={github} alt="GitHub" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Express.js', icon: <img src={express} alt="Express.js" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Azure', icon: <img src={azure} alt="Azure" className="w-10 h-10 object-contain mx-auto" /> },
+  { name: 'Android Studio', icon: <img src={androidstudio} alt="Android Studio" className="w-10 h-10 object-contain mx-auto" /> }
 ];
+
   // Intersection Observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -120,6 +130,37 @@ const Portfolio = () => {
     setCurrentProjectIndex((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
+   const handleChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:5000/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);                      
+        setFormData({ name: '', email: '', message: '' }); 
+        setTimeout(() => {
+          setIsSubmitted(false); 
+          setIsPopupOpen(false); 
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       {/* Navigation */}
@@ -129,7 +170,8 @@ const Portfolio = () => {
             <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Lasandi Randini
             </div>
-            
+           
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-6">
               {['home', 'about', 'tech-stack', 'projects', 'experience', 'blogs', 'contact'].map((section) => (
@@ -200,10 +242,14 @@ const Portfolio = () => {
         
          
           </div>
-          <h1 className={"mt-14 text-6xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in"} >
-          
-            Lasandi Randini
-          </h1>
+         
+            <h2
+      className={`mt-14 text-6xl font-bold mb-12 text-center bg-gradient-to-r from-purple-800 to-pink-200 bg-clip-text text-transparent transition-all duration-1000 $
+         'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
+      Lasandi Randini
+    </h2>
           <p className="text-2xl md:text-2xl mb-8 text-gray-300 animate-slide-up">
             Full Stack Developer
           </p>
@@ -280,40 +326,46 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Tech Stack Section */}
-      <section id="tech-stack" className="py-20">
-        <div className="max-w-2xl mx-auto px-6 item-center">
-          <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
-            isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
-            Tech Stack
-          </h2>
-          <div className={`grid grid-cols-2 md:grid-cols-4 text-center gap-7 transition-all duration-1000 delay-300 ${
-            isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y'
-          }`}>
-            {techStack.map((tech, index) => (
-              <div
-                key={tech.name}
-                className={`group p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 hover:bg-white/10 animate-fade-in`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className={`w-10 h-10 bg-gradient-to-br ${tech.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  {tech.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">
-                  {tech.name}
-                </h3>
-              </div>
-            ))}
+   {/* Tech Stack Section */}
+<section id="tech-stack" className="py-20">
+  <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
+    <h2
+      className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
+        isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
+      Tech Stack
+    </h2>
+
+    <div
+      className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-7 transition-all duration-1000 delay-300 ${
+        isVisible['tech-stack'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y'
+      }`}
+    >
+      {techStack.map((tech, index) => (
+        <div
+          key={tech.name}
+          className={`group p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 hover:bg-white/10 animate-fade-in flex flex-col items-center`}
+          style={{ animationDelay: `${index * 100}ms` }}
+        >
+          <div className="w-12 h-12 mb-4 flex items-center justify-center">
+            {tech.icon}
           </div>
+          <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors duration-300 text-center">
+            {tech.name}
+          </h3>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Projects Section */}
       <section id="projects" className="py-20 bg-black/20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6 ">
           <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
-            isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
             Featured Projects
           </h2>
@@ -385,33 +437,75 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Blogs Section */}
-      <section id="blogs" className="py-20 bg-black/20">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
-            isVisible.blogs ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
-            Latest Blogs
-          </h2>
-          <div className={`grid md:grid-cols-3 gap-8 transition-all duration-1000 delay-300 ${
-            isVisible.blogs ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
-            {[
-              { title: 'Building Scalable React Applications', date: 'March 2024', readTime: '5 min read' },
-              { title: 'Modern JavaScript Best Practices', date: 'February 2024', readTime: '8 min read' },
-              { title: 'Microservices with Node.js', date: 'January 2024', readTime: '12 min read' }
-            ].map((blog, index) => (
-              <div key={index} className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 group cursor-pointer">
-                <div className="w-full h-40 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-xl mb-4 flex items-center justify-center group-hover:from-purple-600/30 group-hover:to-pink-600/30 transition-all duration-300">
-                  <ExternalLink className="w-8 h-8 text-purple-300" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 group-hover:text-purple-300 transition-colors duration-300">{blog.title}</h3>
-                <p className="text-gray-400 text-sm">{blog.date} • {blog.readTime}</p>
+{/* Blogs Section */}
+<section id="blogs" className="py-20 bg-black/20">
+  <div className="max-w-6xl mx-auto px-6">
+    <h2
+      className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
+        isVisible.blogs ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
+      Latest Blogs
+    </h2>
+    <div
+      className={`grid md:grid-cols-3 gap-8  transition-all duration-1000 delay-300 ${
+        isVisible.blogs ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
+      {[
+        {
+          title: 'AI-Powered Code Generation and Development Tools',
+          date: 'May 2025',
+          readTime: '2 min read',
+          link: 'https://medium.com/@kh.lasandirandini/ai-powered-code-generation-and-development-tools-fa04bd400cad',
+          image: blog_1
+        },
+        {
+          title: 'Modern JavaScript Best Practices',
+          date: 'February 2024',
+          readTime: '8 min read',
+          link: 'https://medium.com/@yourusername/modern-js-best-practices',
+          image: blog_2
+        },
+        {
+          title: 'Microservices with Node.js',
+          date: 'January 2024',
+          readTime: '12 min read',
+          link: 'https://medium.com/@yourusername/microservices-nodejs',
+          image: null 
+        }
+      ].map((blog, index) => (
+        <a
+          key={index}
+          href={blog.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 group"
+        >
+          <div className="w-full h-40 rounded-xl mb-4 overflow-hidden">
+            {blog.image ? (
+              <img
+                src={blog.image}
+                alt={blog.title}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center group-hover:from-purple-600/30 group-hover:to-pink-600/30 transition-all duration-300">
+                <ExternalLink className="w-8 h-8 text-purple-300" />
               </div>
-            ))}
+            )}
           </div>
-        </div>
-      </section>
+          <h3 className="text-lg font-bold mb-2 group-hover:text-purple-300 transition-colors duration-300">
+            {blog.title}
+          </h3>
+          <p className="text-gray-400 text-sm">
+            {blog.date} • {blog.readTime}
+          </p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Contact Section */}
       <section id="contact" className="py-20">
@@ -428,30 +522,85 @@ const Portfolio = () => {
               I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology.
             </p>
             <div className="flex justify-center space-x-8 mb-12">
-              <a href="mailto:john@example.com" className="flex items-center space-x-3 text-gray-300 hover:text-purple-300 transition-colors duration-300 hover:scale-105 transform">
-                <Mail className="w-6 h-6" />
-                <span>john@example.com</span>
-              </a>
               <a href="#" className="flex items-center space-x-3 text-gray-300 hover:text-purple-300 transition-colors duration-300 hover:scale-105 transform">
+                <Mail className="w-6 h-6" />
+                <span>kh.lasandirandini@gmail.com</span>
+              </a>
+              <a href="https://www.linkedin.com/in/lasandirandini/" className="flex items-center space-x-3 text-gray-300 hover:text-purple-300 transition-colors duration-300 hover:scale-105 transform">
                 <Linkedin className="w-6 h-6" />
                 <span>LinkedIn</span>
               </a>
-              <a href="#" className="flex items-center space-x-3 text-gray-300 hover:text-purple-300 transition-colors duration-300 hover:scale-105 transform">
+              <a href="https://github.com/LasandiRandini" className="flex items-center space-x-3 text-gray-300 hover:text-purple-300 transition-colors duration-300 hover:scale-105 transform">
                 <Github className="w-6 h-6" />
                 <span>GitHub</span>
               </a>
             </div>
-            <button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-4 rounded-full text-white font-semibold transition-all duration-300 hover:scale-105 transform shadow-lg hover:shadow-purple-500/25">
+            <button onClick={() => setIsPopupOpen(true)} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-4 rounded-full text-white font-semibold transition duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/25">
               Let's Connect
             </button>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 bg-black/40 text-center">
-        <p className="text-gray-400">© 2024 John Doe. Built with React & Tailwind CSS</p>
-      </footer>
+
+      
+      {isPopupOpen && (
+        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
+          <div className="block bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 group">
+            <button onClick={() => setIsPopupOpen(false)} className="absolute top-3 right-3 text-gray-500 hover:text-red-500">
+              <X />
+            </button>
+            <h3 className="text-xl font-bold mb-4 text-purple-600">Send me a message</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              />
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                required
+                rows={4}
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              />
+              {/* <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded">
+                Send
+              </button> */}
+                <button
+                type="submit"
+                className={`w-full font-semibold py-2 rounded transition-all duration-300 ${
+                  isSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
+                disabled={isSubmitted}
+              >
+                {isSubmitted ? 'Message Sent ✓' : 'Send'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+     
+      {/* <footer className="py-8 bg-black/40 text-center">
+        <p className="text-gray-400">© 2025 . Built with React & Tailwind CSS</p>
+      </footer> */}
 
       {/* Floating Navigation Elements */}
       {/* Scroll to Top Button */}
