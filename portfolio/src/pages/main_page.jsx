@@ -3,7 +3,7 @@ import { ChevronDown, Github, Linkedin, Mail, ExternalLink, ChevronLeft, Chevron
 import my_pic from '../assets/my_pic.jpg'; 
 import react from '../assets/react.svg';
 import node from '../assets/node.png';
-import c from '../assets/c.png';
+//import c from '../assets/c.png';
 import firebase from '../assets/firebase.png';
 import mongodb from '../assets/mongodb.png';
 import mysql from '../assets/mysql.png';
@@ -27,7 +27,8 @@ import blog_2 from '../assets/blog_2.jpg';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+ 
   const [isVisible, setIsVisible] = useState({});
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -39,12 +40,42 @@ const Portfolio = () => {
   });
 const [isSubmitted, setIsSubmitted] = useState(false);
   // Projects
-  const projects = [
-    { id: 1, title: 'E-Commerce Platform', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop' },
-    { id: 2, title: 'Task Management App', image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop' },
-    { id: 3, title: 'Weather Dashboard', image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop' },
-    { id: 4, title: 'Social Media App', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop' },
-    { id: 5, title: 'Analytics Platform', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' }
+   const projects = [
+    {
+      id: 1,
+      title: 'E-Commerce Platform',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop',
+      techStack: ['React', 'Tailwind CSS', 'Node.js', 'MongoDB'],
+      description: 'An online shopping platform with secure payment integration and real-time inventory.',
+    },
+    {
+      id: 2,
+      title: 'Task Management App',
+      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop',
+      techStack: ['Vue', 'Vuetify', 'Firebase'],
+      description: 'Manage daily tasks, set deadlines, and collaborate with teams effectively.',
+    },
+    {
+      id: 3,
+      title: 'Weather Dashboard',
+      image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop',
+      techStack: ['HTML', 'CSS', 'JavaScript', 'OpenWeatherMap API'],
+      description: 'Live weather forecasts with interactive charts and maps.',
+    },
+    {
+      id: 4,
+      title: 'Social Media App',
+      image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop',
+      techStack: ['Flutter', 'Firebase', 'Node.js'],
+      description: 'A mobile-first platform to share content, connect, and chat in real time.',
+    },
+    {
+      id: 5,
+      title: 'Analytics Platform',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
+      techStack: ['React', 'D3.js', 'Python Flask'],
+      description: 'Visualize complex datasets with real-time graphs and insights.',
+    },
   ];
 
  const techStack = [
@@ -94,7 +125,7 @@ const [isSubmitted, setIsSubmitted] = useState(false);
     return () => observer.disconnect();
   }, []);
 
-  // Scroll event listener for scroll-to-top button
+  // Scroll
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
@@ -105,14 +136,16 @@ const [isSubmitted, setIsSubmitted] = useState(false);
   }, []);
 
   // Auto-advance project slideshow
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentProjectIndex((prev) => (prev + 1) % projects.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [projects.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentProjectIndex((prev) => (prev + 1) % projects.length);
+  //   }, 4000);
+  //   return () => clearInterval(interval);
+  // }, [projects.length]);
 
-  const scrollToSection = (sectionId) => {
+
+
+const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     setActiveSection(sectionId);
     setShowMobileMenu(false);
@@ -121,14 +154,15 @@ const [isSubmitted, setIsSubmitted] = useState(false);
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+    const nextProject = () => {
+      setCurrentProjectIndex((prev) => (prev + 1) % projects.length);
+    };
 
-  const nextProject = () => {
-    setCurrentProjectIndex((prev) => (prev + 1) % projects.length);
-  };
+    const prevProject = () => {
+      setCurrentProjectIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    };
 
-  const prevProject = () => {
-    setCurrentProjectIndex((prev) => (prev - 1 + projects.length) % projects.length);
-  };
+     const project = projects[currentProjectIndex];
 
    const handleChange = (e) => {
     setFormData(prev => ({
@@ -360,9 +394,93 @@ const [isSubmitted, setIsSubmitted] = useState(false);
   </div>
 </section>
 
+ <section id="projects" className="py-20 bg-black/20">
+      <div className="max-w-6xl mx-auto px-6">
+        <h2
+          className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
+            isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
+          Featured Projects
+        </h2>
 
+        <div
+          className={`relative transition-all duration-1000 delay-300 ${
+            isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <div className="relative h-96 rounded-2xl overflow-hidden group">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div className="absolute bottom-6 left-6 right-6">
+              <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
+              <p className="text-gray-300">Click to view project details</p>
+            </div>
+            <button
+              onClick={prevProject}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-3 transition-all duration-300 hover:scale-110"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={nextProject}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-3 transition-all duration-300 hover:scale-110"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="flex justify-center mt-6 space-x-2">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentProjectIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentProjectIndex
+                    ? 'bg-purple-400 scale-125'
+                    : 'bg-white/30 hover:bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Project Details Section */}
+        <div className="mt-10 bg-white/5 rounded-xl p-6 backdrop-blur-md border border-white/10 transition-all duration-500">
+          <h3 className="text-2xl font-semibold text-white mb-4">{project.title} Overview</h3>
+
+          <p className="text-gray-300 mb-4">{project.description}</p>
+
+          <div className="mb-4">
+            <h4 className="text-white font-medium mb-2">Tech Stack:</h4>
+            <ul className="flex flex-wrap gap-3 text-sm text-purple-300">
+              {project.techStack.map((tech, i) => (
+                <li key={i} className="bg-purple-900/50 px-3 py-1 rounded-full">
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((num) => (
+              <img
+                key={num}
+                src={`https://source.unsplash.com/random/400x300?sig=${currentProjectIndex * 10 + num}`}
+                alt="Project screenshot"
+                className="rounded-lg object-cover h-32 w-full hover:scale-105 transition-transform duration-300"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-black/20">
+      {/* <section id="projects" className="py-20 bg-black/20">
         <div className="max-w-6xl mx-auto px-6 ">
           <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
             isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -409,7 +527,7 @@ const [isSubmitted, setIsSubmitted] = useState(false);
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Experience Section */}
       <section id="experience" className="py-20">
