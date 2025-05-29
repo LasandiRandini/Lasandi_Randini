@@ -208,7 +208,7 @@ const scrollToSection = (sectionId) => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-6">
-              {['home', 'about', 'tech-stack', 'projects', 'experience', 'blogs', 'contact'].map((section) => (
+              {['home', 'about', 'tech-stack', 'projects', 'blogs', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -234,7 +234,7 @@ const scrollToSection = (sectionId) => {
           {showMobileMenu && (
             <div className="md:hidden mt-4 pb-4 border-t border-white/10">
               <div className="flex flex-col space-y-4 mt-4">
-                {['home', 'about', 'tech-stack', 'projects', 'experience', 'blogs', 'contact'].map((section) => (
+                {['home', 'about', 'tech-stack', 'projects', 'blogs', 'contact'].map((section) => (
                   <button
                     key={section}
                     onClick={() => scrollToSection(section)}
@@ -479,58 +479,10 @@ const scrollToSection = (sectionId) => {
         </div>
       </div>
     </section>
-      {/* Projects Section */}
-      {/* <section id="projects" className="py-20 bg-black/20">
-        <div className="max-w-6xl mx-auto px-6 ">
-          <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
-            isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            Featured Projects
-          </h2>
-          <div className={`relative transition-all duration-1000 delay-300 ${
-            isVisible.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
-            <div className="relative h-96 rounded-2xl overflow-hidden group">
-              <img
-                src={projects[currentProjectIndex].image}
-                alt={projects[currentProjectIndex].title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <h3 className="text-2xl font-bold mb-2">{projects[currentProjectIndex].title}</h3>
-                <p className="text-gray-300">Click to view project details</p>
-              </div>
-              <button
-                onClick={prevProject}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-3 transition-all duration-300 hover:scale-110"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button
-                onClick={nextProject}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-3 transition-all duration-300 hover:scale-110"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="flex justify-center mt-6 space-x-2">
-              {projects.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentProjectIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentProjectIndex ? 'bg-purple-400 scale-125' : 'bg-white/30 hover:bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section> */}
+   
 
       {/* Experience Section */}
-      <section id="experience" className="py-20">
+      {/* <section id="experience" className="py-20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
             isVisible.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -553,10 +505,10 @@ const scrollToSection = (sectionId) => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
 {/* Blogs Section */}
-<section id="blogs" className="py-20 bg-black/20">
+<section id="blogs" className="py-20 ">
   <div className="max-w-6xl mx-auto px-6">
     <h2
       className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
@@ -626,7 +578,7 @@ const scrollToSection = (sectionId) => {
 </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      <section id="contact" className="py-20 bg-black/20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className={`text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000 ${
             isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
